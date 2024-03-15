@@ -27,10 +27,11 @@
           background-position: 0% 50%;
         }
       }
-    </style>
+      </style>
   </head>
-
+  
   <body>
+    <section id="title">
     <div class="container-fluid bg-body-tertiary gradient-background">
       <div class="row">
         <div class="col-6 align-self-center">
@@ -42,11 +43,12 @@
           >
             <use xlink:href="#bootstrap"></use>
           </svg>
-          <h1 class="text-body-emphasis text-center">
+          <div class="d-inline-block">
+          <h1 class="text-body-emphasis">
             Meet new and interesting dogs nearby.
           </h1>
 
-          <div class="d-flex gap-2 mb-5 justify-content-center">
+          <div class="d-flex gap-2 mb-5">
             <button type="button" class="btn btn-light">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -82,15 +84,51 @@
             </button>
           </div>
         </div>
+        </div>
         <div class="col-6">
           <img class="d-block mt-5 ms-auto me-auto" src="./images/iphone.png" />
         </div>
       </div>
     </div>
-
-    <section id="title"></section>
+    </section>
     <!-- Features -->
-    <section id="features"></section>
+    <section id="features">
+      <div class="row g-4 py-5 row-cols-1 row-cols-lg-3 m-5">
+        <div class="feature col">
+          <div class="feature-icon d-inline-flex align-items-center justify-content-center text-bg-primary bg-gradient fs-2 mb-3">
+            <svg class="bi" width="1em" height="1em"><use xlink:href="#collection"></use></svg>
+          </div>
+          <h3 class="fs-2 text-body-emphasis">Featured title</h3>
+          <p>Paragraph of text beneath the heading to explain the heading. We'll add onto it with another sentence and probably just keep going until we run out of words.</p>
+          <a href="#" class="icon-link">
+            Call to action
+            <svg class="bi"><use xlink:href="#chevron-right"></use></svg>
+          </a>
+        </div>
+        <div class="feature col">
+          <div class="feature-icon d-inline-flex align-items-center justify-content-center text-bg-primary bg-gradient fs-2 mb-3">
+            <svg class="bi" width="1em" height="1em"><use xlink:href="#people-circle"></use></svg>
+          </div>
+          <h3 class="fs-2 text-body-emphasis">Featured title</h3>
+          <p>Paragraph of text beneath the heading to explain the heading. We'll add onto it with another sentence and probably just keep going until we run out of words.</p>
+          <a href="#" class="icon-link">
+            Call to action
+            <svg class="bi"><use xlink:href="#chevron-right"></use></svg>
+          </a>
+        </div>
+        <div class="feature col">
+          <div class="feature-icon d-inline-flex align-items-center justify-content-center text-bg-primary bg-gradient fs-2 mb-3">
+            <svg class="bi" width="1em" height="1em"><use xlink:href="#toggles2"></use></svg>
+          </div>
+          <h3 class="fs-2 text-body-emphasis">Featured title</h3>
+          <p>Paragraph of text beneath the heading to explain the heading. We'll add onto it with another sentence and probably just keep going until we run out of words.</p>
+          <a href="#" class="icon-link">
+            Call to action
+            <svg class="bi"><use xlink:href="#chevron-right"></use></svg>
+          </a>
+        </div>
+      </div>
+    </section>
     <!-- Testimonial -->
     <section id="testimonial"></section>
     <!-- Pricing -->
