@@ -4,12 +4,14 @@ for (let i = 0; i < buttonsArr.length; i += 1) {
   buttonsArr[i].addEventListener('click', function () {
     var whichButton = this.textContent;
     makeSound(whichButton);
+    buttonAnimation(whichButton);
   });
 }
 
 document.addEventListener('keydown', function (event) {
   var whichKey = event.key;
   makeSound(whichKey);
+  buttonAnimation(whichKey);
 });
 
 function makeSound(key) {
@@ -43,4 +45,12 @@ function makeSound(key) {
       tomFourSound.play();
       break;
   }
+}
+
+function buttonAnimation(currentKey) {
+  var activeButton = document.querySelector('.' + currentKey);
+  activeButton.classList.add('pressed');
+  setTimeout(function () {
+    activeButton.classList.remove('pressed');
+  }, 250);
 }
