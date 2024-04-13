@@ -1,9 +1,9 @@
 const gamePattern = [];
 const userClickedPattern = [];
+const buttonColors = ['red', 'blue', 'green', 'yellow'];
 let gameLevel = 1;
 let userClickIdx = 0;
 let clickEnabled = true;
-const buttonColors = ['red', 'blue', 'green', 'yellow'];
 
 // generate a random color, push the color to the game pattern, and increment the game level
 const nextColor = () => {
@@ -13,11 +13,14 @@ const nextColor = () => {
   buttonSound(randomChosenColor);
   gamePattern.push(randomChosenColor);
   $('h1').text(`Level ${gameLevel}`);
-  console.log(gamePattern);
+  console.log(`gamePattern: ${gamePattern}`);
 };
 
-// initiate the game
+// reset the game or initiate the game
 $(document).on('keypress', () => {
+  if ($('h1').text() === 'Game Over, Press Any Key to Restart') {
+    gameLevel += 1;
+  }
   if (!gamePattern.length) {
     nextColor();
   }
@@ -35,10 +38,29 @@ $('.btn').on('click', (clickEvent) => {
   }
 });
 
+// if user's sequence is incorrect, change header, reset game level, clear game pattern and user's pattern
 const gameOver = () => {
   $('h1').text('Game Over, Press Any Key to Restart');
   gameLevel = 0;
   gamePattern.length = 0;
+  userClickedPattern.length = 0;
+  $('body').addClass('game-over');
+  setTimeout(() => {
+    $('body').removeClass('game-over');
+  }, 200);
+  const gameOverSound = new Audio('./sounds/wrong.mp3');
+  gameOverSound.play();
+};
+
+// if user's sequence is correct, increment game level, reset click index, and clear user's pattern
+const userSequenceCorrect = () => {
+  setTimeout(nextColor, 1000);
+  clickEnabled = false;
+  setTimeout(() => {
+    clickEnabled = true;
+  }, 1500);
+  gameLevel += 1;
+  userClickIdx = 0;
   userClickedPattern.length = 0;
 };
 
@@ -49,15 +71,7 @@ const checkFunc = (clickIdx) => {
   }
   userClickIdx += 1;
   if (userClickedPattern.length === gamePattern.length) {
-    setTimeout(nextColor, 1000);
-    clickEnabled = false;
-    const switchClickToggle = () => {
-      clickEnabled = true;
-    };
-    setTimeout(switchClickToggle, 1100);
-    gameLevel += 1;
-    userClickIdx = 0;
-    userClickedPattern.length = 0;
+    return userSequenceCorrect();
   }
 };
 
