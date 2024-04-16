@@ -6,6 +6,7 @@
 
 import inquirer from 'inquirer';
 import qr from 'qr-image';
+// Use object destructuring to grab the two methods below from Node.js
 import { createWriteStream, writeFile } from 'fs';
 
 // questions array to craft multiple user prompts (only using one for url prompt)
