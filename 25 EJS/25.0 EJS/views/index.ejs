@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Weekday or Weekend</title>
+  </head>
+  <body>
+    <% const newDay = new Date(); %> <% const dayOfTheWeek = newDay.getDay(); %>
+    <% const daysArray = [ 'Sunday', 'Monday', 'Tuesday', 'Wednesday',
+    'Thursday', 'Friday', 'Saturday', ]; %> <% if (dayOfTheWeek === 0 ||
+    dayOfTheWeek === 6) { %>
+    <h1>Hey! It's the weekend, it's time to have fun!</h1>
+    <% } else { %>
+    <h1>Hey! It's a weekday, it's time to work hard!</h1>
+    <% } %>
+  </body>
+</html>
