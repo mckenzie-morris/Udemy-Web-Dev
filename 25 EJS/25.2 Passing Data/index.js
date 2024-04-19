@@ -25,7 +25,8 @@ app.get('/', (req, res) => {
 
 app.post('/submit', (req, res) => {
   const postData = {
-    nextheader: 'something',
+    header: null,
+    nextHeader: true,
     firstName: req.body.fName,
     lastName: req.body.lName,
   };

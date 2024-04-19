@@ -9,8 +9,11 @@
   <body>
     <!-- Write your code here -->
     <% if (locals.badInput) { %>
-    <h1><%= 'Please input a valid name' %></h1>
-    <% } else if (locals.nextheader) { %>
+    <h1>
+      <%= `Please input a valid name (exclude any spaces, tabs, numeric and/or
+      special characters)` %>
+    </h1>
+    <% } else if (locals.nextHeader) { %>
     <h1>
       <%= `Your name is ${firstName.length + lastName.length} characters long`
       %>
