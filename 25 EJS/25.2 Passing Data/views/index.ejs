@@ -8,7 +8,17 @@
 
   <body>
     <!-- Write your code here -->
+    <% if (locals.badInput) { %>
+    <h1><%= 'Please input a valid name' %></h1>
+    <% } else if (locals.nextheader) { %>
+    <h1>
+      <%= `Your name is ${firstName.length + lastName.length} characters long`
+      %>
+    </h1>
+    <% } else { %>
     <h1><%= header %></h1>
+    <% } %>
+
     <form action="/submit" method="POST">
       <input type="text" name="fName" placeholder="First name" />
       <input type="text" name="lName" placeholder="Last name" />
