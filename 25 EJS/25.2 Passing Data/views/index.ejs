@@ -10,6 +10,8 @@
     <!-- Write your code here -->
     <% if (locals.badInput) { %>
     <h1>
+      <!-- If a JS code string spans multiple lines in an EJS file, it must be 
+        wrapped in back ticks, instead of single or double quotes -->
       <%= `Please input a valid name (exclude any spaces, tabs, numeric and/or
       special characters)` %>
     </h1>
