@@ -35,16 +35,16 @@ app.post('/recipe', (req, res) => {
       }
     }
   };
-  // iterate thru 'recipeJSON'
+  // iterate thru (parsed) 'recipeJSON'
   for (let elmt of JSON.parse(recipeJSON)) {
     // call recursive function on elmt
     recursiveFunc(elmt);
     /* if the key corresponding to the clicked ingredient is found in the function above,
     'keyFound' will be set to true.
     if 'keyfound' is true, stringify the corresponding elmt in 'recipeJSON' and reassign
-    'resData' to the stringified value of elmt, then redirect to root route */
+    'resData' to elmt, then redirect to root route */
     if (keyFound === true) {
-      resData = JSON.stringify(elmt);
+      resData = elmt;
       return res.redirect('/');
     }
   }
