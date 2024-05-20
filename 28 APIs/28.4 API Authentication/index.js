@@ -1,27 +1,41 @@
-import express from "express";
-import axios from "axios";
+import express, { response } from 'express';
+import axios from 'axios';
 
 const app = express();
 const port = 3000;
-const API_URL = "https://secrets-api.appbrewery.com/";
+const API_URL = 'https://secrets-api.appbrewery.com/';
 
-//TODO 1: Fill in your values for the 3 types of auth.
-const yourUsername = "Borat";
-const yourPassword = "Sagdiyev";
-const yourAPIKey = "ba997a4f-b5f0-4a04-b013-acb9a9f93705";
-const yourBearerToken = "7d2e64b6-36d6-4b1a-8428-2d1fa6b991c8";
+//TODO 1: Fill in your values for the 3 types of auth. ✅
+// 🚩🚩🚩 NOTE: 🚩🚩🚩 All user submitted data (including registration, tokens, usernames, passwords, secrets) are erased on a regular basis!!!!!!!
+const yourUsername = 'Borat';
+const yourPassword = 'Sagdiyev';
+const yourAPIKey = '44ce79d8-b94c-4f44-bfb6-3c8dbe1cabec';
+const yourBearerToken = 'cd5cdecb-1174-4e6e-9f93-f5f04b4059b8';
 
-app.get("/", (req, res) => {
-  res.render("index.ejs", { content: "API Response." });
+app.get('/', (req, res) => {
+  res.render('index.ejs', { content: 'API Response.' });
 });
 
-app.get("/noAuth", (req, res) => {
+app.get('/noAuth', async (req, res) => {
   //TODO 2: Use axios to hit up the /random endpoint
-  //The data you get back should be sent to the ejs file as "content"
-  //Hint: make sure you use JSON.stringify to turn the JS object from axios into a string.
+  try {
+    const response = await axios.get(
+      'https://secrets-api.appbrewery.com/random'
+    );
+    console.log(response);
+    res.render('index.ejs', { content: JSON.stringify(response.data) });
+  } catch (error) {
+    console.error('Failed to make request:', error.message);
+    res.render('index.ejs', {
+      content: error.message,
+    });
+  }
+
+  //The data you get back should be sent to the ejs file as "content" ✅
+  //Hint: make sure you use JSON.stringify to turn the JS object from axios into a string. ✅
 });
 
-app.get("/basicAuth", (req, res) => {
+app.get('/basicAuth', async (req, res) => {
   //TODO 3: Write your code here to hit up the /all endpoint
   //Specify that you only want the secrets from page 2
   //HINT: This is how you can use axios to do basic auth:
@@ -34,16 +48,47 @@ app.get("/basicAuth", (req, res) => {
       },
     });
   */
+  try {
+    const response = await axios.get(
+      'https://secrets-api.appbrewery.com/all?page=2',
+      {
+        auth: {
+          username: yourUsername,
+          password: yourPassword,
+        },
+      }
+    );
+    console.log(response);
+    res.render('index.ejs', { content: JSON.stringify(response.data) });
+  } catch (error) {
+    console.error('Failed to make request:', error.message);
+    res.render('index.ejs', {
+      content: error.message,
+    });
+  }
 });
 
-app.get("/apiKey", (req, res) => {
-  //TODO 4: Write your code here to hit up the /filter endpoint
+app.get('/apiKey', async (req, res) => {
+  //TODO 4: Write your code here to hit up the /filter endpoint ✅
+  try {
+    const response = await axios.get(
+      'https://secrets-api.appbrewery.com/filter',
+      { params: { score: 5, apiKey: yourAPIKey } }
+    );
+    console.log(response);
+    res.render('index.ejs', { content: JSON.stringify(response.data) });
+  } catch (error) {
+    console.error('Failed to make request:', error.message);
+    res.render('index.ejs', {
+      content: error.message,
+    });
+  }
   //Filter for all secrets with an embarassment score of 5 or greater
   //HINT: You need to provide a query parameter of apiKey in the request.
 });
 
-app.get("/bearerToken", (req, res) => {
-  //TODO 5: Write your code here to hit up the /secrets/{id} endpoint
+app.get('/bearerToken', async (req, res) => {
+  //TODO 5: Write your code here to hit up the /secrets/{id} endpoint ✅
   //and get the secret with id of 42
   //HINT: This is how you can use axios to do bearer token auth:
   // https://stackoverflow.com/a/52645402
@@ -54,6 +99,19 @@ app.get("/bearerToken", (req, res) => {
     },
   });
   */
+  try {
+    const response = await axios.get(
+      'https://secrets-api.appbrewery.com/secrets/42',
+      { headers: { Authorization: `Bearer ${yourBearerToken}` } }
+    );
+    console.log(response);
+    res.render('index.ejs', { content: JSON.stringify(response.data) });
+  } catch (error) {
+    console.error('Failed to make request:', error.message);
+    res.render('index.ejs', {
+      content: error.message,
+    });
+  }
 });
 
 app.listen(port, () => {
