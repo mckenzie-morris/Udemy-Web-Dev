@@ -36,7 +36,8 @@ app.get("/edit/:id", async (req, res) => {
       submit: "Update Post",
       post: response.data,
     });
-  } catch (error) {
+  } 
+  catch (error) {
     res.status(500).json({ message: "Error fetching post" });
   }
 });
