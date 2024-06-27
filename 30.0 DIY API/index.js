@@ -42,7 +42,7 @@ app.get('/filter', (req, res) => {
 app.post('/jokes', (req, res) => {
   const typeOfJoke = req.body.type;
   const textOfJoke = req.body.text;
-  console.log(textOfJoke, typeOfJoke)
+  console.log(textOfJoke, typeOfJoke);
   let jokesArrCurrIdx = jokes[jokes.length - 1].id;
   if (!typeOfJoke || !textOfJoke) {
     return res
@@ -57,16 +57,72 @@ app.post('/jokes', (req, res) => {
   return res.status(201).send(jokes[jokes.length - 1]);
 });
 
-//5. PUT a joke
+//5. PUT a joke ✅
 app.put('/jokes/:id', (req, res) => {
-  const jokeId = req.params.id;
+  const jokeId = Number(req.params.id);
+  const typeOfJoke = req.body.type;
+  const textOfJoke = req.body.text;
+  if (!typeOfJoke || !textOfJoke) {
+    return res
+      .status(400)
+      .send({ error: 'Missing joke type and/or joke text' });
+  }
+  jokes.splice(jokeId - 1, 1, {
+    id: jokeId,
+    jokeText: textOfJoke,
+    jokeType: typeOfJoke,
+  });
+  console.log(jokes);
+  return res.status(201).send(jokes[jokeId - 1]);
+});
+
+//6. PATCH a joke ✅
+app.patch('/jokes/:id', (req, res) => {
+  const jokeId = parseInt(req.params.id);
+  const jokeIdx = jokes.findIndex((elmt) => {
+    return elmt.id === jokeId;
+  });
+  if (jokeIdx === -1) {
+    return res.status(404).send({ error: 'Joke does not exist' });
+  }
+  if (req.body.type) {
+    jokes[jokeIdx].jokeType = req.body.type;
+  }
+  if (req.body.text) {
+    jokes[jokeIdx].jokeText = req.body.text;
+  }
+  console.log(jokes);
+  return res.status(201).send(jokes[jokeIdx]);
+});
+
+//7. DELETE Specific joke ✅
+app.delete('/jokes/:id', (req, res) => {
+  const jokeId = parseInt(req.params.id);
+  const jokeIdx = jokes.findIndex((elmt) => {
+    return elmt.id === jokeId;
+  });
+  if (jokeIdx === -1) {
+    return res.status(404).send({ error: 'Joke does not exist' });
+  }
+  jokes.splice(jokeIdx, 1);
+  jokes.map((currVal, idx) => {
+    if (idx >= jokeIdx) {
+      currVal.id = --currVal.id;
+    }
+  });
+  return res.sendStatus(204);
+});
+
+//8. DELETE All jokes ✅
+app.delete('/all', (req, res) => {
+  const submittedKey = req.query.key
+  console.log(submittedKey)
+  if (submittedKey === masterKey) {
+    jokes.length = 0;
+    return res.status(200).send(jokes);
+  }
+  return res.status(400).send({ error: 'key is incorrect' });
 })
-
-//6. PATCH a joke
-
-//7. DELETE Specific joke
-
-//8. DELETE All jokes
 
 app.listen(port, () => {
   console.log(`Successfully started server on port ${port}.`);
