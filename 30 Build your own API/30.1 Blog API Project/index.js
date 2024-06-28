@@ -40,28 +40,26 @@ app.use(bodyParser.urlencoded({ extended: true }));
 
 //Write your code here//
 
-//CHALLENGE 1: GET All posts
+//CHALLENGE 1: GET All posts ✅
 app.get('/posts', (req, res) => {
   return res.status(200).send(posts);
 });
 
-//CHALLENGE 2: GET a specific post by id
+//CHALLENGE 2: GET a specific post by id ✅
 app.get('/posts/:id', (req, res) => {
   const targetPost = posts.find(
     (currVal) => currVal.id === parseInt(req.params.id)
   );
-  if (!targetPost) return res.status(404).send({error: 'Post not found'})
+  if (!targetPost) return res.status(404).send({ error: 'Post not found' });
   return res.status(200).send(targetPost);
 });
 
-//CHALLENGE 3: POST a new post
+//CHALLENGE 3: POST a new post ✅
 app.post('/posts', (req, res) => {
   if (!req.body.title || !req.body.content || !req.body.author) {
-    return res
-      .status(400)
-      .send({
-        error: 'title and/or content and/or author field(s) may not be blank',
-      });
+    return res.status(400).send({
+      error: 'title and/or content and/or author field(s) may not be blank',
+    });
   }
   posts.push({
     id: ++lastId,
@@ -73,7 +71,7 @@ app.post('/posts', (req, res) => {
   return res.status(201).end();
 });
 
-//CHALLENGE 4: PATCH a post when you just want to update one parameter
+//CHALLENGE 4: PATCH a post when you just want to update one parameter ✅
 app.patch('/posts/:id', (req, res) => {
   const targetPostIdx = posts.findIndex(
     (currVal) => currVal.id === parseInt(req.params.id)
@@ -88,14 +86,14 @@ app.patch('/posts/:id', (req, res) => {
   return res.status(201).end();
 });
 
-//CHALLENGE 5: DELETE a specific post by providing the post id.
+//CHALLENGE 5: DELETE a specific post by providing the post id. ✅
 app.delete('/posts/:id', (req, res) => {
   const targetPostIdx = posts.findIndex(
     (currVal) => currVal.id === parseInt(req.params.id)
   );
   posts.splice(targetPostIdx, 1);
   return res.status(204).end();
-})
+});
 
 app.listen(port, () => {
   console.log(`API is running at http://localhost:${port}`);
