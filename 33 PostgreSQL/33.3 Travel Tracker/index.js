@@ -21,27 +21,42 @@ const db = new pg.Client({
 });
 
 let countries = [];
+let total = 0;
 
 db.connect();
+
+db.query('SELECT * FROM visited_countries', (err, res) => {
+  if (err) {
+    console.error('Error executing query', err.stack);
+  } else {
+    const countryCodesArr = res.rows;
+    countryCodesArr.forEach((elmt) => {
+      countries.push(elmt.country_code);
+      total += 1;
+    });
+    console.log(countries);
+  }
+});
 
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.static('public'));
 
-app.get('/', async (req, res) => {
-  db.query('SELECT * FROM visited_countries', (err, res) => {
-    if (err) {
-      console.error('Error executing query', err.stack);
-    } else {
-      console.log(res.rows);
-      const countryCodesArr = res.rows;
-      countryCodesArr.forEach( (elmt) => {
-        countries.push(elmt.country_code);
-      })
-      console.log(countries)
-    }
-    // db.end();
-  });
-  res.render('index.ejs', { total: 0, countries: countries });
+app.get('/', (req, res) => {
+  res.render('index.ejs', { total: total, countries: countries });
+});
+
+app.post('/add', async (req, res) => {
+  const country = req.body.country.trim().toLowerCase();
+  console.log(country);
+
+  try {
+
+  } 
+  catch (error) {
+    
+  }
+
+  res.end();
 });
 
 app.listen(port, () => {
