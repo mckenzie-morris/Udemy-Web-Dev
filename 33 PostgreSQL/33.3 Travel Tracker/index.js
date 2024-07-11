@@ -20,43 +20,65 @@ const db = new pg.Client({
   port: DB_PORT,
 });
 
-let countries = [];
-let total = 0;
-
 db.connect();
 
-db.query('SELECT * FROM visited_countries', (err, res) => {
-  if (err) {
-    console.error('Error executing query', err.stack);
-  } else {
-    const countryCodesArr = res.rows;
-    countryCodesArr.forEach((elmt) => {
-      countries.push(elmt.country_code);
-      total += 1;
-    });
-    console.log(countries);
-  }
-});
+let countries = [];
+
+const getCountries = async () => {
+  const query = {
+    text: 'SELECT country_code FROM visited_countries',
+    rowMode: 'array',
+  };
+  const result = await db.query(query);
+  console.log(result.rows.flat());
+  countries = result.rows.flat();
+  return countries;
+}
 
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.static('public'));
 
-app.get('/', (req, res) => {
-  res.render('index.ejs', { total: total, countries: countries });
+app.get('/', async (req, res) => {
+  const countries = await getCountries();
+  res.render('index.ejs', { countries: countries, total: countries.length });
 });
 
 app.post('/add', async (req, res) => {
-  const country = req.body.country.trim().toLowerCase();
-  console.log(country);
+  let inputCountry = req.body.country.trim().split(/\s+/)
+  inputCountry = inputCountry.map( (cVal) => {
+    return cVal.slice(0, 1).toUpperCase() + cVal.slice(1).toLowerCase();
+  })
+  inputCountry = inputCountry.join(' ')
+  console.log(inputCountry)
+  const query = {
+    text: 'SELECT country_code FROM countries WHERE country_name = $1',
+    values: [inputCountry],
+  };
 
   try {
-
+    const result = await db.query(query);
+    if (!result.rows[0]) {
+      throw new Error('Country does not exist, try again');
+    }
+    if (countries.includes(result.rows[0].country_code)) {
+      throw new Error('Country has already been added, try again');
+    }
+    const nextQuery = {
+      text: 'INSERT INTO visited_countries(country_code) VALUES($1)',
+      values: [result.rows[0].country_code],
+    };
+    const nextResult = await db.query(nextQuery);
+    res.redirect('/');
   } 
   catch (error) {
-    
+    console.log(error);
+    const countries = await getCountries();
+    res.render('index.ejs', {
+      countries: countries,
+      total: countries.length,
+      error: error,
+    });
   }
-
-  res.end();
 });
 
 app.listen(port, () => {
