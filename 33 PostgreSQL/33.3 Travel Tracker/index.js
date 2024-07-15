@@ -52,7 +52,7 @@ app.post('/add', async (req, res) => {
   console.log(inputCountry)
   const query = {
     text: 'SELECT country_code FROM countries WHERE country_name LIKE $1',
-    values: [`${inputCountry}%`],
+    values: [`${inputCountry} %`],
   };
 
   try {
