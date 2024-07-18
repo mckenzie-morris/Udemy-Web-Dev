@@ -20,7 +20,9 @@ const db = new pg.Client({
   port: DB_PORT,
 });
 
-db.connect();
+db.connect().catch((err) => {
+  console.error('Error connecting to database', err);
+});
 
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.static('public'));
@@ -31,11 +33,16 @@ let items = [
 ];
 
 const getAllItems = async () => {
-  const query = {
-    text: 'SELECT * FROM items',
-  };
-  const result = await db.query(query);
-  return result.rows;
+  try {
+    const query = {
+      text: 'SELECT * FROM items',
+    };
+    const result = await db.query(query);
+    return result.rows;
+  } catch (error) {
+    console.error('Error fetching items', error);
+    return [];
+  }
 };
 
 app.get('/', async (req, res) => {
@@ -48,30 +55,45 @@ app.get('/', async (req, res) => {
 });
 
 app.post('/add', async (req, res) => {
-  const query = {
-    text: 'INSERT INTO items (title) VALUES($1) RETURNING *',
-    values: [req.body.newItem],
-  };
-  const result = await db.query(query);
-  res.redirect('/');
+  try {
+    const query = {
+      text: 'INSERT INTO items (title) VALUES($1) RETURNING *',
+      values: [req.body.newItem],
+    };
+    const result = await db.query(query);
+  } catch (error) {
+    console.log(error);
+  } finally {
+    res.redirect('/');
+  }
 });
 
 app.post('/edit', async (req, res) => {
-  const query = {
-    text: 'UPDATE items SET title = $1 WHERE id = $2 RETURNING *',
-    values: [req.body.updatedItemTitle, req.body.updatedItemId],
-  };
-  const result = await db.query(query);
-  res.redirect('/');
+  try {
+    const query = {
+      text: 'UPDATE items SET title = $1 WHERE id = $2 RETURNING *',
+      values: [req.body.updatedItemTitle, req.body.updatedItemId],
+    };
+    const result = await db.query(query);
+  } catch (error) {
+    console.error(error);
+  } finally {
+    res.redirect('/');
+  }
 });
 
 app.post('/delete', async (req, res) => {
-  const query = {
-    text: 'DELETE FROM items WHERE id = $1 RETURNING *;',
-    values: [req.body.deleteItemId],
-  };
-  const result = await db.query(query);
-  res.redirect('/');
+  try {
+    const query = {
+      text: 'DELETE FROM items WHERE id = $1 RETURNING *;',
+      values: [req.body.deleteItemId],
+    };
+    const result = await db.query(query);
+  } catch (error) {
+    console.error(error);
+  } finally {
+    res.redirect('/');
+  }
 });
 
 app.listen(port, () => {
