@@ -45,7 +45,16 @@ app.post('/register', async (req, res) => {
     if (checkResult.rows.length > 0) {
       res.send('Email already exists. Try logging in.');
     } else {
-      // password hashing
+      /* password = This is the string you want to hash, typically a password.
+
+         saltRound = This determines how secure the hash will be by specifying the 
+          computational cost. It defines the number of hashing rounds to apply to 
+          the data. A higher value means more security but also more time to hash 
+          the data (recommended value is 10-12). 
+          
+          callback (optional) = A function that is executed after the hashing is 
+            complete. It usually takes two parameters: an error and the resulting hash.
+          */
       bcrypt.hash(password, saltRounds, async (err, hash) => {
         if (err) {
           console.log('Error hashing password: ', err);
