@@ -8,3 +8,17 @@
 // to install the node modules and
 // npm run dev
 // to launch your react project in your browser
+import React from 'react';
+import ReactDOM from 'react-dom';
+
+ReactDOM.render(
+  <div>
+    <h1>My List</h1>
+    <ul>
+      <li>Here's a list item</li>
+      <li>And another</li>
+      <li>And another one still</li>
+    </ul>
+  </div>,
+  document.getElementById('root')
+);
