@@ -1,7 +1,31 @@
-import React from "react";
-import ReactDOM from "react-dom";
+import React from 'react';
+import ReactDOM from 'react-dom';
 
-ReactDOM.render(<h1>Hello World!</h1>, document.getElementById("root"));
+const customStyle = {
+  display: 'flex',
+  justifyContent: 'center',
+  fontSize: '10rem',
+};
+
+/* 
+
+The same custom class, but in *proper* CSS formatting 
+(note: React requires camelCase, CSS requires kebab-case)
+
+.customStyle {
+  display: flex;
+  justify-content: center;
+  font-size: 10rem;
+} 
+
+*/
+
+ReactDOM.render(
+  <h1 className='customStyle' style={customStyle}>
+    Hello World!
+  </h1>,
+  document.getElementById('root')
+);
 
 // If you're running this locally in VS Code use the commands:
 // npm install
