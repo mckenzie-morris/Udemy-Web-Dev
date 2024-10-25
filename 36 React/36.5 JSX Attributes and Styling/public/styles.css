@@ -1,0 +1,8 @@
+.hobby-img {
+  height: 100px;
+  width: 100px;
+}
+
+.gray-img {
+    filter: grayscale(100%);
+}
