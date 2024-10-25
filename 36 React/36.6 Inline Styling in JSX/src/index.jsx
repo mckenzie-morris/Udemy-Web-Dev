@@ -21,7 +21,7 @@ The same custom class, but in *proper* CSS formatting
 */
 
 ReactDOM.render(
-  <h1 className='customStyle' style={customStyle}>
+  <h1 style={customStyle}>
     Hello World!
   </h1>,
   document.getElementById('root')

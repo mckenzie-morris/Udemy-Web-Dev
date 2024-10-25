@@ -14,4 +14,32 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 
-ReactDOM.render(<div></div>, document.getElementById('root'));
+const newDate = new Date();
+const hour = newDate.getHours();
+
+let greeting;
+let color;
+
+if (hour >= 0 && hour < 12) {
+  greeting = 'Good morning';
+  color = 'red';
+} else if (12 >= 0 && hour < 18) {
+  greeting = 'Good afternoon';
+  color = 'green';
+} else if (18 >= 0 && hour <= 24) {
+  greeting = 'Good evening';
+  color = 'blue';
+}
+
+const styling = {
+  color: `${color}`,
+};
+
+ReactDOM.render(
+  <div>
+    <h1 className='heading' style={styling}>
+      {greeting}
+    </h1>
+  </div>,
+  document.getElementById('root')
+);
