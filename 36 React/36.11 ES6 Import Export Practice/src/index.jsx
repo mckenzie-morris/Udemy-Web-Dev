@@ -1,5 +1,23 @@
-import React from "react";
-import ReactDOM from "react-dom";
+import React from 'react';
+import ReactDOM from 'react-dom';
+import * as calcFunctions from './calculator';
+
+/* using object destructuring, the below result could be achieved in one line:
+
+import { add, multiply, subtract, divide } from './calculator';
+
+or, keeping the above line the same (using the '*' wildcard):
+
+const { add, multiply, subtract, divide } = calcFunctions;
+
+*/
+
+const add = calcFunctions.add;
+const multiply = calcFunctions.multiply;
+const subtract = calcFunctions.subtract;
+const divide = calcFunctions.divide;
+
+console.log(calcFunctions)
 
 //Import the add, multiply, subtract and divide functions
 //from the calculator.js file.
@@ -12,7 +30,7 @@ ReactDOM.render(
     <li>{subtract(7, 2)}</li>
     <li>{divide(5, 2)}</li>
   </ul>,
-  document.getElementById("root")
+  document.getElementById('root')
 );
 
 // If you're running this locally in VS Code use the commands:
