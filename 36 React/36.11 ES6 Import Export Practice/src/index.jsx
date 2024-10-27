@@ -17,7 +17,7 @@ const multiply = calcFunctions.multiply;
 const subtract = calcFunctions.subtract;
 const divide = calcFunctions.divide;
 
-console.log(calcFunctions)
+// console.log(calcFunctions)
 
 //Import the add, multiply, subtract and divide functions
 //from the calculator.js file.
