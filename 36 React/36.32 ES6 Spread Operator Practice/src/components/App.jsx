@@ -14,6 +14,7 @@ function App() {
     setList((prevState) => {
       return [...prevState, inputState];
     });
+    // clear the input field
     return setInput('');
   };
 
@@ -37,6 +38,7 @@ function App() {
       </div>
       <div>
         <ul>
+          {/* note: remember to use .map(), since .forEach() only returns undefined */}
           {listState.map((elmt, idx) => {
             return <li key={idx}>{elmt}</li>;
           })}
